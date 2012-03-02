@@ -1,0 +1,54 @@
+body {
+    font-family: Verdana;
+}
+
+.options {
+    display: none;
+}
+
+.forumpost {
+    border: 1px solid #CCC;
+    border-radius: 6px;
+    margin-bottom: 8px;
+}
+
+.indent {
+    margin-left: 32px;
+}
+
+.subject {
+    font-weight: bold;
+}
+
+.header {
+    background-color: #DDD;
+    padding: 4px;
+}
+
+a {
+    color: #000;
+    text-decoration: none;
+}
+
+.left {
+    float: left;
+    width: 43px;
+    overflow: hidden;
+}
+
+.topic {
+    margin-left: 43px;
+}
+
+.posting {
+    margin-top: 10px;
+}
+
+.author {
+    font-size: 80%;
+}
+
+.attachments {
+    display: none;
+}
+
