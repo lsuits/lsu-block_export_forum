@@ -131,13 +131,10 @@ abstract class ExportForumPDF {
 
     function anonymize($content) {
         // User pictures
-        $search = 'pluginfile.php?file=%2F13%2Fuser%2Ficon%2Fstandard%2Ff2';
+        $pattern = '/pluginfile\.php[\?file=]*%2F\d+%2Fuser%2Ficon%2Fstandard%2Ff2/';
         $replace = 'blocks/export_forum/user.png';
 
-        $content = str_replace($search, $replace, $content);
-
-        $search = 'pluginfile.php%2F13%2Fuser%2Ficon%2Fstandard%2Ff2';
-        $content = str_replace($search, $replace, $content);
+        $content = preg_replace($pattern, $replace, $content);
 
         // User names
         $pattern = '/by <a href=".+?user\/view.php\?id=.+?">(.+?)<\/a> -?/';
