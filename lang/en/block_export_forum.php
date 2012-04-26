@@ -2,6 +2,8 @@
 
 $string['pluginname'] = 'Export Forum';
 
+$string['output_failed'] = 'Failed to retrieve the selected discussion';
+
 $string['forum'] = 'Forum';
 $string['export'] = 'Export';
 $string['discussion'] = 'Discussion';

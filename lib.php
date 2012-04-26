@@ -84,7 +84,7 @@ abstract class ExportForumPDF {
     }
 
     function get_discussion_content($discussion, $forum=NULL) {
-        global $DB;
+        global $DB, $OUTPUT;
 
         if (!is_object($discussion)) {
             $params = array('id' => $discussion);
@@ -110,7 +110,12 @@ abstract class ExportForumPDF {
 
         ob_start();
 
-        forum_print_discussion($course, $cm, $forum, $discussion, $post, $mode);
+        try {
+            forum_print_discussion($course, $cm, $forum, $discussion, $post, $mode);
+        } catch (Exception $e) {
+            $msg = get_string('output_failed', 'block_export_forum');
+            echo $OUTPUT->notification($msg);
+        }
 
         $content = ob_get_contents();
 

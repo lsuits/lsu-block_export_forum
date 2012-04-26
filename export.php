@@ -44,6 +44,7 @@ if ($form_data = $export_form->get_data()) {
     $anonymize = isset($form_data->anonymize) ? $form_data->anonymize : false;
 
     if ($d_id) {
+        list($f_id, $d_id) = explode('_', $d_id);
         $x = new ExportForumDiscussionPDF($d_id, $anonymize);
     } else if ($f_id) {
         $x = new ExportForumForumPDF($f_id, $anonymize);
