@@ -136,8 +136,8 @@ abstract class ExportForumPDF {
 
     function anonymize($content) {
         // User pictures
-        $pattern = '/pluginfile\.php[\?file=]*%2F\d+%2Fuser%2Ficon%2Fstandard%2Ff2/';
-        $replace = 'images/user.png';
+        $pattern = '/pluginfile\.php[\?file=]*%2F\d+%2Fuser%2Ficon%2F\w+%2Ff2/';
+        $replace = 'blocks/export_forum/pix/user.png';
 
         $content = preg_replace($pattern, $replace, $content);
 
