@@ -39,15 +39,18 @@ $PAGE->requires->js('/blocks/export_forum/js/export.js');
 $export_form = new export_forum_export_form();
 
 if ($form_data = $export_form->get_data()) {
+    global $DB;
+    
     $f_id = $form_data->forum_id;
     $d_id = $form_data->discussion_id;
     $anonymize = isset($form_data->anonymize) ? $form_data->anonymize : false;
-
+    
+    $forum = $DB->get_record('forum', array('id'=>$f_id));
     if ($d_id) {
         list($f_id, $d_id) = explode('_', $d_id);
-        $x = new ExportForumDiscussionPDF($d_id, $anonymize);
+        $x = new ExportForumDiscussionPDF($d_id, $forum, $anonymize);
     } else if ($f_id) {
-        $x = new ExportForumForumPDF($f_id, $anonymize);
+        $x = new ExportForumForumPDF($f_id, $forum, $anonymize);
     } else {
         print_error();
     }

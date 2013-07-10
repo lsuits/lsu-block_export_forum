@@ -1,6 +1,7 @@
 <?php
 
 require_once($CFG->dirroot . '/mod/forum/lib.php');
+require_once($CFG->dirroot . '/lib/html2text.php');
 
 function block_export_forum_pluginfile($course, $record, $context, $filearea, $args, $forcedownload) {
     global $DB;
@@ -34,26 +35,58 @@ function block_export_forum_pluginfile($course, $record, $context, $filearea, $a
 abstract class ExportForumPDF {
     abstract public function get_content($id);
 
-    function __construct($id, $anonymize=false) {
+    function __construct($id, $forum, $anonymize=false) {
         list($content, $filename) = $this->get_content($id);
 
-        $this->generate($content, $filename, $anonymize);
+        $this->generate($content, $filename, $anonymize, $forum);
     }
 
-    function generate($content, $filename, $anonymize) {
-        global $CFG;
+    function generate($content, $filename, $anonymize, $forum) {
+        global $CFG, $USER;
 
-        require_once($CFG->dirroot . '/blocks/export_forum/mpdf/mpdf.php');
+        require_once($CFG->dirroot . '/lib/tcpdf/tcpdf.php');
 
         $css = file_get_contents($CFG->dirroot . '/blocks/export_forum/pdf.css');
+        
+        make_cache_directory('tcpdf');
+        
+        $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+        // set document information
+        $pdf->SetCreator(PDF_CREATOR);
+        $pdf->SetAuthor($USER->firstname." ".$USER->lastname);
+        $pdf->SetTitle($forum->name);
+        
+        $h2t = new html2text($forum->intro);
+        $pdf->SetSubject($h2t->get_text());
 
-        $mpdf = new mPDF('UTF-8-s');
-        $mpdf->SetAutoFont(AUTOFONT_ALL);
-        $mpdf->WriteHTML($css, 1);
+        // set default header data
+//        $pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, PDF_HEADER_TITLE.' 006', PDF_HEADER_STRING);
+
+        // set header and footer fonts
+        $pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
+        $pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
+
+        // set default monospaced font
+        $pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
+
+        // set margins
+        $pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
+        $pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
+        $pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
+
+        // set auto page breaks
+        $pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
+
+        // set image scale factor
+        $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
+        $pdf->SetFont('Helvetica');
+        
+        $pdf->AddPage();
+        $pdf->WriteHTML("<style>".$css."</style>",null, 1);
 
         foreach ($content as $n => $page) {
             if ($n > 0) {
-                $mpdf->AddPage();
+                $pdf->AddPage();
             }
 
             $page = $this->sanitize_content($page);
@@ -62,10 +95,11 @@ abstract class ExportForumPDF {
                 $page = $this->anonymize($page);
             }
 
-            $mpdf->WriteHTML($page);
+            $pdf->WriteHTML($page);
         }
-
-        $mpdf->Output($filename, 'D');
+        $pdf->lastPage();
+        
+        $pdf->Output($filename, 'D');
     }
 
     function sanitize_content($content) {
@@ -182,8 +216,8 @@ class ExportForumForumPDF extends ExportForumPDF {
 
             $content[] = $page;
         }
-
-        $filename = str_replace('-' . end(explode('-', $filename)), '', $filename);
+        $fname_pts = explode('-', $filename);
+        $filename = str_replace('-' . end($fname_pts), '', $filename);
 
         return array($content, $filename);
     }
