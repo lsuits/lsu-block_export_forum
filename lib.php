@@ -79,8 +79,7 @@ abstract class ExportForumPDF {
         }
         $pdf->writeHTML($fullpage);
         $pdf->lastPage();
-echo $fullpage;
-die();
+
         $pdf->Output($filename, 'D');
     }
 
