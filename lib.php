@@ -61,23 +61,26 @@ abstract class ExportForumPDF {
         $pdf->SetFont('Helvetica');
         
         $pdf->AddPage();
-        $pdf->WriteHTML("<style>".$css."</style>",null, 1);
+//        $pdf->WriteHTML("<style>".$css."</style>",null, 1);
 
+        $fullpage = "<style>".$css."</style>";
         foreach ($content as $n => $page) {
             if ($n > 0) {
-                $pdf->AddPage();
+//                $pdf->AddPage();
             }
-
+        
             $page = $this->sanitize_content($page);
 
             if ($anonymize) {
                 $page = $this->anonymize($page);
             }
-
-            $pdf->WriteHTML($page);
+            $fullpage.= $page;
+//            $pdf->WriteHTML($page);
         }
+        $pdf->writeHTML($fullpage);
         $pdf->lastPage();
-
+echo $fullpage;
+die();
         $pdf->Output($filename, 'D');
     }
 
