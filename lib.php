@@ -183,7 +183,8 @@ class ExportForumForumPDF extends ExportForumPDF {
             $content[] = $page;
         }
 
-        $filename = str_replace('-' . end(explode('-', $filename)), '', $filename);
+        $exploded_tmp = explode('-', $filename);
+        $filename = str_replace('-' . end($exploded_tmp), '', $filename);
 
         return array($content, $filename);
     }
