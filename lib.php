@@ -77,21 +77,21 @@ abstract class ExportForumPDF {
             $pdf->WriteHTML($page);
         }
         $pdf->lastPage();
-        
+
         $pdf->Output($filename, 'D');
     }
 
     function sanitize_content($content) {
         global $CFG;
 
-        $content = htmlspecialchars_decode(stripslashes($content));
+//        $content = htmlspecialchars_decode(stripslashes($content));
 
-        $c_id = get_context_instance(CONTEXT_MODULE, $this->forum_id)->id;
+//        $c_id = get_context_instance(CONTEXT_MODULE, $this->forum_id)->id;
+//
+//        $search = '/' . $c_id . '/mod_forum';
+//        $replace = '/' . $c_id . '/block_export_forum/export/mod_forum';
 
-        $search = '%2F' . $c_id . '%2Fmod_forum';
-        $replace = '%2F' . $c_id . '%2Fblock_export_forum%2Fexport%2Fmod_forum';
-
-        $content = str_replace($search, $replace, $content);
+//        $content = str_replace($search, $replace, $content);
 
         return $content;
     }
