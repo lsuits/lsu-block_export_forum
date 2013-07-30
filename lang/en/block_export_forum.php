@@ -10,3 +10,4 @@ $string['discussion'] = 'Discussion';
 $string['all_discussions'] = 'All Discussions';
 $string['no_permission'] = 'You do not have permission to export forums for this course';
 $string['anonymize'] = 'Anonymize';
+$string['export_forum:addinstance'] = 'Add the Export Forum block to your course';
