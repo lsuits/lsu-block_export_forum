@@ -16,7 +16,7 @@ require_login($id);
 // Page Setup
 $pluginname= $_s('pluginname');
 
-$context = get_context_instance(CONTEXT_COURSE, $id);
+$context = context_course::instance($id);
 
 if (!has_capability('moodle/course:update', $context)) {
     print_error('no_permission', 'block_export_forum');
