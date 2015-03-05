@@ -73,7 +73,7 @@ abstract class ExportForumPDF {
 
         $content = htmlspecialchars_decode(stripslashes($content));
 
-        $c_id = context_module::instance($this->forum_id)->id;
+        $c_id = get_coursemodule_from_instance('forum', $this->forum_id->id, $course->id);
 
         $search = '%2F' . $c_id . '%2Fmod_forum';
         $replace = '%2F' . $c_id . '%2Fblock_export_forum%2Fexport%2Fmod_forum';
