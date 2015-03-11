@@ -125,7 +125,7 @@ abstract class ExportForumPDF {
             <h2>$course->fullname &raquo; $forum->name &raquo; $discussion->name</h2>
         ";
 
-        $filename = "$course->shortname-$forum->name-$discussion->name";
+        $filename = "$course->shortname-$forum->name-$discussion->name" . ".pdf";
 
         $filename = str_replace(' ', '_', $filename);
 
