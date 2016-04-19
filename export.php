@@ -33,7 +33,7 @@ $PAGE->set_heading($SITE->shortname . ': ' . $pluginname);
 $PAGE->set_url('/blocks/export_forum/export.php');
 $PAGE->set_pagetype($pluginname);
 
-$PAGE->requires->js('/blocks/export_forum/js/jquery.js');
+$PAGE->requires->jquery();
 $PAGE->requires->js('/blocks/export_forum/js/export.js');
 
 $export_form = new export_forum_export_form();
