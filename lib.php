@@ -65,6 +65,8 @@ abstract class ExportForumPDF {
             $mpdf->WriteHTML($page);
         }
 
+        $filename .= ".pdf";
+
         $mpdf->Output($filename, 'D');
     }
 
@@ -125,7 +127,7 @@ abstract class ExportForumPDF {
             <h2>$course->fullname &raquo; $forum->name &raquo; $discussion->name</h2>
         ";
 
-        $filename = "$course->shortname-$forum->name-$discussion->name" . ".pdf";
+        $filename = "$course->shortname-$forum->name-$discussion->name";
 
         $filename = str_replace(' ', '_', $filename);
 
