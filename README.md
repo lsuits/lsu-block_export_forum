@@ -1,0 +1,1 @@
+Note: this version works on all versions of Moodle that are on PHP less than 5.6!!!
