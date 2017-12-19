@@ -16,28 +16,25 @@ class block_export_forum extends block_list {
     function get_content() {
         global $COURSE, $OUTPUT;
 
-        $_s = function($key) { return get_string($key, 'block_export_forum'); };
-
         if ($this->content !== NULL) {
             return $this->content;
         }
 
         $this->content = new stdClass;
-
-        $this->content->icons  = array();
-
-        $params = array('id' => $COURSE->id);
-        $url = new moodle_url('/blocks/export_forum/export.php', $params);
-        $link = html_writer::link($url, $_s('pluginname'));
-
-        $this->content->icons[] = $OUTPUT->pix_icon(
-            'icon', $_s('pluginname'),
-            'block_export_forum', array('class' => 'icon')
-        );
-        $items = array($link);
-
-        $this->content->items = $items;
+        $this->content->items = [];
+        $this->content->icons = [];
         $this->content->footer = '';
+
+        $label = get_string('pluginname', 'block_export_forum');
+        
+        $icon = $OUTPUT->pix_icon('i/export', $label, 'moodle', ['class' => 'icon']);
+
+        $this->content->items = [
+            html_writer::link(
+                new moodle_url('/blocks/export_forum/export.php', ['id' => $COURSE->id]),
+                $icon . $label
+            )
+        ];
 
         return $this->content;
     }
