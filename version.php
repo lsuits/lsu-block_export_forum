@@ -11,4 +11,4 @@ defined('MOODLE_INTERNAL') || die();
 $plugin->component = 'block_export_forum';
 $plugin->version = 2016041900;
 $plugin->requires = 2015111600;
-$plugin->release = 'v3.0.0';
+$plugin->release = 'v3.0.1';
